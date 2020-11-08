@@ -9,9 +9,9 @@ export default function (props) {
   //description: description
   const { id, description, thumb_image_url, logo } = props.item;
   return (
-    <div>
-      <img src={thumb_image_url}/>
-      <img src={logo}/>
+    <div className="portfolio-item-wrapper">
+      <img src={thumb_image_url} />
+      <img src={logo} />
       <div>{description}</div>
       <Link to={`/portfolio/${id}`}>Link</Link>
     </div>

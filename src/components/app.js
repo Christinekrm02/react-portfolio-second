@@ -1,5 +1,6 @@
 import React, { Component } from "react";
 import { BrowserRouter as Router, Switch, Route } from "react-router-dom";
+import axios from "axios";
 
 import NavigationContainer from "./navigation/navigation-container";
 import Home from "./pages/home";
@@ -14,7 +15,7 @@ export default class App extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      loggedInStatus: "NOT_LOGGED_IN",
+      loggedInStatus: " ",
     };
   }
   handleSuccessfulLogin() {
@@ -27,16 +28,50 @@ export default class App extends Component {
       loggedInStatus: "NOT_LOGGED_IN",
     });
   }
+
+  checkLoginStatus() {
+    return axios
+      .get("https://api.devcamp.space/logged_in", {
+        withCredentials: true,
+      })
+      .then(response => {
+        const loggedIn = response.data.logged_in;
+        const loggedInStatus = this.state.loggedInStatus;
+        //First conditional needs to check if loggedIn and status LOGGED_IN => return data
+        //If loggedIn status NOT_LOGGED_IN => update state to LOGGED_IN
+        //If not loggedIn and status LOGGED_IN => update state
+
+        if (loggedIn && loggedInStatus === "LOGGED_IN") {
+          return loggedIn;
+        } else if (loggedIn && loggedInStatus === "NOT_LOGGED_IN") {
+          this.setState({
+            loggedInStatus: "LOGGED_IN",
+          });
+        } else if (!loggedIn && loggedInStatus === "LOGGED_IN") {
+          this.setState({
+            loggedInStatus: "NOT_LOGGED_IN",
+          });
+        }
+      })
+      .catch(error => {
+        console.log("Error", error);
+      });
+  }
+  componentDidMount() {
+    this.checkLoginStatus();
+  }
   render() {
     return (
       <div className="container">
         <Router>
           <div>
             <NavigationContainer />
+            <h2>{this.state.loggedInStatus}</h2>
+
             <Switch>
+              <Route exact path="/" component={Home} />
               <Route
-                exact
-                path="/"
+                path="/auth"
                 render={props => (
                   <Auth
                     {...props}
@@ -45,7 +80,7 @@ export default class App extends Component {
                   />
                 )}
               />
-              <Route exact path="/auth" component={Auth} />
+
               <Route exact path="/about-me" component={About} />
               <Route exact path="/contact" component={Contact} />
               <Route exact path="/blog" component={Blog} />

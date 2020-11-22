@@ -15,9 +15,12 @@ export default class App extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      loggedInStatus: " ",
+      loggedInStatus: "NOT_LOGGED_IN",
     };
+    this.handleSuccessfulLogin = this.handleSuccessfulLogin.bind(this);
+    this.handleUnsuccessfulLogin = this.handleUnsuccessfulLogin.bind(this);
   }
+
   handleSuccessfulLogin() {
     this.setState({
       loggedInStatus: "LOGGED_IN",
@@ -60,12 +63,15 @@ export default class App extends Component {
   componentDidMount() {
     this.checkLoginStatus();
   }
+  authorizePages() {
+    return [<Route exact path="/blog" component={Blog} />];
+  }
   render() {
     return (
       <div className="container">
         <Router>
           <div>
-            <NavigationContainer />
+            <NavigationContainer loggedInStatus={this.state.loggedInStatus} />
             <h2>{this.state.loggedInStatus}</h2>
 
             <Switch>
@@ -83,7 +89,10 @@ export default class App extends Component {
 
               <Route exact path="/about-me" component={About} />
               <Route exact path="/contact" component={Contact} />
-              <Route exact path="/blog" component={Blog} />
+              {this.state.loggedInStatus === "LOGGED_IN"
+                ? this.authorizePages()
+                : null}
+
               <Route
                 exact
                 path="/portfolio/:slug"

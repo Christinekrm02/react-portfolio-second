@@ -20,6 +20,7 @@ export default class App extends Component {
     this.handleSuccessfulLogin = this.handleSuccessfulLogin.bind(this);
     this.handleUnsuccessfulLogin = this.handleUnsuccessfulLogin.bind(this);
     this.handleSuccessfulLogout = this.handleSuccessfulLogout.bind(this);
+    this.authorizePages = this.authorizePages.bind(this);
   }
 
   handleSuccessfulLogin() {

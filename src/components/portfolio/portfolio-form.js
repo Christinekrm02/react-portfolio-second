@@ -1,4 +1,5 @@
 import React, { Component } from "react";
+import axios from "axios";
 
 export default class PortfolioForm extends Component {
   constructor(props) {
@@ -6,7 +7,7 @@ export default class PortfolioForm extends Component {
     this.state = {
       name: "",
       description: "",
-      category: "",
+      category: "eCommerce",
       position: "",
       url: "",
       thumb_image: "",
@@ -16,13 +17,35 @@ export default class PortfolioForm extends Component {
     this.handleChange = this.handleChange.bind(this);
     this.handleSubmit = this.handleSubmit.bind(this);
   }
+  buildForm() {
+    let formData = new FormData();
+
+    formData.append("portfolio_item[name]", this.state.name);
+    formData.append("portfolio_item[description]", this.state.description);
+    formData.append("portfolio_item[url]", this.state.url);
+    formData.append("portfolio_item[category]", this.state.category);
+    formData.append("portfolio_item[position]", this.state.position);
+
+    return formData;
+  }
   handleChange(e) {
+    axios
+      .post(
+        "https://christinem.devcamp.space/portfolio/portfolio_items",
+        this.buildForm(),
+        { withCredentials: true }
+      )
+      .then(response => {
+        console.log("handleChange response: ", response);
+      })
+      .catch(error => {
+        console.log("portfolio form handleSubmit error", error);
+      });
     this.setState({
       [e.target.name]: e.target.value,
     });
   }
   handleSubmit(e) {
-    console.log("event: ", e);
     e.preventDefault();
   }
   render() {
@@ -54,15 +77,19 @@ export default class PortfolioForm extends Component {
               value={this.state.posiion}
               onChange={this.handleChange}
             />
-            <input
-              type="text"
+            {/* Use a select tag to create a drop down */}
+            {/* option values should be hardcoded because these are the actual options provided in dropdown*/}
+            {/* go up to state and add a default value for state so that the category gets added to the database*/}
+            <select
               name="category"
-              placeholder="Category"
               value={this.state.category}
-              onChange={this.handleChange}
-            />
+              onChange={this.handleChange}>
+              <option value="eCommerce">eCommerce</option>
+              <option value="Scheduling">Scheduling</option>
+              <option value="Enterprise">Enterprise</option>
+            </select>
             <div>
-              <input
+              <textarea
                 type="text"
                 name="description"
                 placeholder="Description"

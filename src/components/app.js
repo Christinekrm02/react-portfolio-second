@@ -48,8 +48,8 @@ export default class App extends Component {
       .then(response => {
         const loggedIn = response.data.logged_in;
         const loggedInStatus = this.state.loggedInStatus;
-        //First conditional needs to check if loggedIn and status LOGGED_IN => return data
-        //If loggedIn status NOT_LOGGED_IN => update state to LOGGED_IN
+        //First conditional needs to check if loggedIn and status LOGGED_IN => return data from successful api call
+        //If loggedIn status NOT_LOGGED_IN => update state to LOGGED_IN => update state
         //If not loggedIn and status LOGGED_IN => update state
 
         if (loggedIn && loggedInStatus === "LOGGED_IN") {
@@ -73,7 +73,11 @@ export default class App extends Component {
   }
   authorizePages() {
     return [
-      <Route exact path="/portfolio-manager" component={PortfolioManager} />,
+      <Route
+        key="portfolio-manager"
+        path="/portfolio-manager"
+        component={PortfolioManager}
+      />,
     ];
   }
   render() {
@@ -118,3 +122,4 @@ export default class App extends Component {
     );
   }
 }
+

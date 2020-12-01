@@ -131,7 +131,7 @@ export default class PortfolioForm extends Component {
   render() {
     return (
       <form onSubmit={this.handleSubmit} className="portfolio-form-wrapper">
-        <div>
+        <div className="two-column">
           <input
             type="text"
             name="name"
@@ -149,7 +149,7 @@ export default class PortfolioForm extends Component {
           />
         </div>
 
-        <div>
+        <div className="two-column">
           <input
             type="text"
             name="position"
@@ -164,14 +164,15 @@ export default class PortfolioForm extends Component {
           <select
             name="category"
             value={this.state.category}
-            onChange={this.handleChange}>
+            onChange={this.handleChange}
+            className="select-element">
             <option value="eCommerce">eCommerce</option>
             <option value="Scheduling">Scheduling</option>
             <option value="Enterprise">Enterprise</option>
           </select>
         </div>
 
-        <div>
+        <div className="one-column">
           <textarea
             type="text"
             name="description"
@@ -180,32 +181,39 @@ export default class PortfolioForm extends Component {
             onChange={this.handleChange}
           />
         </div>
-
-        <div className="image-uploaders">
+        {/* optional style: for dropzone components that do not span scross page, remove three-column tag*/}
+        <div className="image-uploaders three-column">
           <DropzoneComponent
             ref={this.thumbRef}
             config={this.componentConfig()}
             djsConfig={this.djsConfig()}
-            eventHandlers={this.handleThumbDrop()}
-          />
+            eventHandlers={this.handleThumbDrop()}>
+            {/* Eg of passing child component into a parent- overriding label value*/}
+            {/* grabbed className for DZ component (inspect page) to gain acces to be able to add label*/}
+            <div className="dz-message">Thumbnail</div>
+          </DropzoneComponent>
 
           <DropzoneComponent
             ref={this.bannerRef}
             config={this.componentConfig()}
             djsConfig={this.djsConfig()}
-            eventHandlers={this.handleBannerDrop()}
-          />
+            eventHandlers={this.handleBannerDrop()}>
+            <div className="dz-message">Banner</div>
+          </DropzoneComponent>
 
           <DropzoneComponent
             ref={this.logoRef}
             config={this.componentConfig()}
             djsConfig={this.djsConfig()}
-            eventHandlers={this.handleLogoDrop()}
-          />
+            eventHandlers={this.handleLogoDrop()}>
+            <div className="dz-message">Logo</div>
+          </DropzoneComponent>
         </div>
 
         <div>
-          <button type="submit">Save</button>
+          <button className="btn" type="submit">
+            Save
+          </button>
         </div>
       </form>
     );

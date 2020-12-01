@@ -18,9 +18,27 @@ export default class PortfolioManager extends Component {
     );
     this.handleDeleteClick = this.handleDeleteClick.bind(this);
   }
-  {/* functionality to delete items in sidebar, will be applied to portfolio-sidebar.js */}
+  /* functionality to delete items in sidebar, will be applied to portfolio-sidebar.js */
+  /* tip- why use filter instead of map?*/
+  /* deletion occurs here*/
   handleDeleteClick(portfolioItem) {
-    console.log("handleDeleteClick", portfolioItem);
+    axios
+      .delete(
+        `https://api.devcamp.space/portfolio/portfolio_items/${portfolioItem.id}`,
+        { withCredentials: true }
+      )
+      /* matching state for deletion occurs here*/
+      .then(response => {
+        this.setState({
+          portfolioItems: this.state.portfolioItems.filter(item => {
+            return item.id !== portfolioItem.id;
+          }),
+        });
+        return response.data;
+      })
+      .catch(error => {
+        console.log("handleDeleteClick error", error);
+      });
   }
   /* method that populates the page with each new submission to the portfolio*/
   /* to update the state for each new record, use concat to add the existing array for portfolioItems to the created array for the newly added portfolio item*/

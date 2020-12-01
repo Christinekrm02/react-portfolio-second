@@ -9,6 +9,9 @@ const PortfolioSideBarList = props => {
         </div>
         <h1 className="title">{portfolioItem.name}</h1>
         <h2>{portfolioItem.id}</h2>
+        {/* to delete an image/item on the page*/}
+        {/* method created at portfolio-manager and will be applied to elements rendered in sidebar*/}
+        <a onClick={() => props.handleDeleteClick(portfolioItem)}>Delete</a>
       </div>
     );
   });

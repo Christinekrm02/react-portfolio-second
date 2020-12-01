@@ -16,6 +16,11 @@ export default class PortfolioManager extends Component {
     this.handleSuccessfulFormSubmissionError = this.handleFormSubmissionError.bind(
       this
     );
+    this.handleDeleteClick = this.handleDeleteClick.bind(this);
+  }
+  {/* functionality to delete items in sidebar, will be applied to portfolio-sidebar.js */}
+  handleDeleteClick(portfolioItem) {
+    console.log("handleDeleteClick", portfolioItem);
   }
   /* method that populates the page with each new submission to the portfolio*/
   /* to update the state for each new record, use concat to add the existing array for portfolioItems to the created array for the newly added portfolio item*/
@@ -60,7 +65,10 @@ export default class PortfolioManager extends Component {
           />
         </div>
         <div className="right-column">
-          <PortfolioSideBarList data={this.state.portfolioItems} />
+          <PortfolioSideBarList
+            handleDeleteClick={this.handleDeleteClick}
+            data={this.state.portfolioItems}
+          />
         </div>
       </div>
     );

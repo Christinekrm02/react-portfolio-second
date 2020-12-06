@@ -9,6 +9,8 @@ export default class PortfolioManager extends Component {
     super();
     this.state = {
       portfolioItems: [],
+      /* for CRUD (update) functionality */
+      portdolioToEdit: {},
     };
     this.handleSuccessfulFormSubmission = this.handleSuccessfulFormSubmission.bind(
       this
@@ -16,7 +18,14 @@ export default class PortfolioManager extends Component {
     this.handleSuccessfulFormSubmissionError = this.handleFormSubmissionError.bind(
       this
     );
+    /*CRUD */
     this.handleDeleteClick = this.handleDeleteClick.bind(this);
+    this.handleEditClick = this.handleEditClick.bind(this);
+  }
+  handleEditClick(portfolioItem) {
+    this.setState({
+      portfolioToEdit: portfolioItem,
+    });
   }
   /* functionality to delete items in sidebar, will be applied to portfolio-sidebar.js */
   /* tip- why use filter instead of map?*/
@@ -86,6 +95,7 @@ export default class PortfolioManager extends Component {
           <PortfolioSideBarList
             handleDeleteClick={this.handleDeleteClick}
             data={this.state.portfolioItems}
+            handleEditClick={this.handleEditClick}
           />
         </div>
       </div>

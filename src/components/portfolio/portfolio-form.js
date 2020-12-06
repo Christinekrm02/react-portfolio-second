@@ -32,6 +32,34 @@ export default class PortfolioForm extends Component {
     this.bannerRef = React.createRef();
     this.logoRef = React.createRef();
   }
+  /* to update form */
+  /* triggered by click on edit button */
+  UNSAFE_componentWillUpdate() {
+    if (Object.keys(this.props.portfolioToEdit).length > 0) {
+      /* see deconstruction */
+      const {
+        id,
+        name,
+        description,
+        category,
+        position,
+        url,
+        thumb_image_url,
+        banner_image_url,
+        logo_url,
+      } = this.props.portfolioToEdit;
+      this.props.clearPortfolioToEdit();
+
+      this.setState({
+        id: id,
+        name: name || "",
+        description: description || "",
+        category: category || "eCommerce",
+        position: position || "",
+        url: url || "",
+      });
+    }
+  }
 
   handleThumbDrop() {
     return {

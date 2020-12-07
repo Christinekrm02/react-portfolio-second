@@ -11,14 +11,14 @@ const PortfolioSideBarList = props => {
         <div className="text-content">
           <div className="title">{portfolioItem.name}</div>
           <div className="actions">
+            {/* to edit/ delete an image/item on the page*/}
+            {/* method created at portfolio-manager and will be applied to elements rendered in sidebar*/}
             <a
               className="action-icon"
               onClick={() => props.handleEditClick(portfolioItem)}>
               <FontAwesomeIcon icon="edit" />
             </a>
 
-            {/* to delete an image/item on the page*/}
-            {/* method created at portfolio-manager and will be applied to elements rendered in sidebar*/}
             <a
               className="action-icon"
               onClick={() => props.handleDeleteClick(portfolioItem)}>

@@ -10,15 +10,14 @@ export default class PortfolioManager extends Component {
     this.state = {
       portfolioItems: [],
       /* for CRUD (update) functionality */
-      portdolioToEdit: {},
+      portfolioToEdit: {},
     };
-    this.handleSuccessfulFormSubmission = this.handleSuccessfulFormSubmission.bind(
-      this
-    );
+    /*CRUD methods */
+    this.handleNewFormSubmission = this.handleNewFormSubmission.bind(this);
+    this.handleEditFormSubmission = this.handleEditFormSubmission(this);
     this.handleSuccessfulFormSubmissionError = this.handleFormSubmissionError.bind(
       this
     );
-    /*CRUD */
     this.handleDeleteClick = this.handleDeleteClick.bind(this);
     this.handleEditClick = this.handleEditClick.bind(this);
     this.clearPortfolioToEdit = this.clearPortfolioToEdit.bind(this);
@@ -55,11 +54,14 @@ export default class PortfolioManager extends Component {
         console.log("handleDeleteClick error", error);
       });
   }
+  handleEditFormSubmission() {
+    this.getPortfolioItems();
+  }
   /* method that populates the page with each new submission to the portfolio*/
   /* to update the state for each new record, use concat to add the existing array for portfolioItems to the created array for the newly added portfolio item*/
   /* this allows the new item to be added to the top of the array/list on the page*/
   /* Cannot use push since that will not give behavior we are looking for*/
-  handleSuccessfulFormSubmission(portfolioItem) {
+  handleNewFormSubmission(portfolioItem) {
     this.setState({
       portfolioItems: [portfolioItem].concat(this.state.portfolioItems),
     });
@@ -93,10 +95,12 @@ export default class PortfolioManager extends Component {
       <div className="portfolio-manager-wrapper">
         <div className="left-column">
           <PortfolioForm
-            handleSuccessfulFormSubmission={this.handleSuccessfulFormSubmission}
+            handleNewFormSubmission={this.handleNewFormSubmission}
+            /* resets data and populates state for portfolio manager */
+            handleEditFormSubmission={this.handleEditFormSubmission}
             handleSuccessfulFormSubmissionError={this.handleFormSubmissionError}
             clearPortfolioToEdit={this.clearPortfolioToEdit}
-            portfolioToEdit={this.state.portdolioToEdit}
+            portfolioToEdit={this.state.portfolioToEdit}
           />
         </div>
         <div className="right-column">

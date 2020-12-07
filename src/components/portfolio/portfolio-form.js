@@ -34,9 +34,8 @@ export default class PortfolioForm extends Component {
   }
   /* to update form */
   /* triggered by click on edit button */
-  UNSAFE_componentWillUpdate() {
+  componentDidUpdate() {
     if (Object.keys(this.props.portfolioToEdit).length > 0) {
-      /* see deconstruction */
       const {
         id,
         name,
@@ -48,6 +47,7 @@ export default class PortfolioForm extends Component {
         banner_image_url,
         logo_url,
       } = this.props.portfolioToEdit;
+
       this.props.clearPortfolioToEdit();
 
       this.setState({

@@ -8,8 +8,16 @@
     margin-bottom: 0px;
   }
   //optional style for dropzone components that do not span entire width of section
-  //.image-uploaders {
-  //  @include base-grid();
-  //  grid-template-columns: 200px 200px 200px;
-  // }
+  .image-uploaders {
+    @include base-grid();
+    grid-template-columns: 200px 200px 200px;
+    .portfolio-manager-image-wrapper {
+      img {
+        width: 100%;
+        height: 120px;
+        object-fit: cover;
+        border-radius: 5px;
+      }
+    }
+  }
 }

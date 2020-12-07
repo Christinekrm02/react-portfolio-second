@@ -37,6 +37,7 @@ export default class PortfolioForm extends Component {
   }
   /* to update form */
   /* triggered by click on edit button */
+  /* see warning for updates come react 16.x */
   componentDidUpdate() {
     if (Object.keys(this.props.portfolioToEdit).length > 0) {
       const {
@@ -63,6 +64,9 @@ export default class PortfolioForm extends Component {
         editMode: true,
         apiUrl: `https://christinem.devcamp.space/portfolio/portfolio_items/${id}`,
         apiAction: "patch",
+        thumb_image: thumb_image_url || "",
+        banner_image: banner_image_url || "",
+        logo: logo_url || "",
       });
     }
   }
@@ -222,33 +226,49 @@ export default class PortfolioForm extends Component {
             onChange={this.handleChange}
           />
         </div>
-        {/* optional style: for dropzone components that do not span scross page, remove three-column tag*/}
+        {/* optional style: for dropzone components that do not span scross page, remove/add three-column tag*/}
         <div className="image-uploaders three-column">
-          <DropzoneComponent
-            ref={this.thumbRef}
-            config={this.componentConfig()}
-            djsConfig={this.djsConfig()}
-            eventHandlers={this.handleThumbDrop()}>
-            {/* Eg of passing child component into a parent- overriding label value*/}
-            {/* grabbed className for DZ component (inspect page) to gain acces to be able to add label*/}
-            <div className="dz-message">Thumbnail</div>
-          </DropzoneComponent>
-
-          <DropzoneComponent
-            ref={this.bannerRef}
-            config={this.componentConfig()}
-            djsConfig={this.djsConfig()}
-            eventHandlers={this.handleBannerDrop()}>
-            <div className="dz-message">Banner</div>
-          </DropzoneComponent>
-
-          <DropzoneComponent
-            ref={this.logoRef}
-            config={this.componentConfig()}
-            djsConfig={this.djsConfig()}
-            eventHandlers={this.handleLogoDrop()}>
-            <div className="dz-message">Logo</div>
-          </DropzoneComponent>
+          {this.state.thumb_image && this.state.editMode ? (
+            <div className="portfolio-manager-image-wrapper">
+              <img src={this.state.thumb_image} />
+            </div>
+          ) : (
+            <DropzoneComponent
+              ref={this.thumbRef}
+              config={this.componentConfig()}
+              djsConfig={this.djsConfig()}
+              eventHandlers={this.handleThumbDrop()}>
+              {/* Eg of passing child component into a parent- overriding label value*/}
+              {/* grabbed className for DZ component (inspect page) to gain acces to be able to add label*/}
+              <div className="dz-message">Thumbnail</div>
+            </DropzoneComponent>
+          )}
+          {this.state.banner_image && this.state.editMode ? (
+            <div className="portfolio-manager-image-wrapper">
+              <img src={this.state.banner_image} />
+            </div>
+          ) : (
+            <DropzoneComponent
+              ref={this.bannerRef}
+              config={this.componentConfig()}
+              djsConfig={this.djsConfig()}
+              eventHandlers={this.handleBannerDrop()}>
+              <div className="dz-message">Banner</div>
+            </DropzoneComponent>
+          )}
+          {this.state.logo && this.state.editMode ? (
+            <div className="portfolio-manager-image-wrapper">
+              <img src={this.state.logo} />
+            </div>
+          ) : (
+            <DropzoneComponent
+              ref={this.logoRef}
+              config={this.componentConfig()}
+              djsConfig={this.djsConfig()}
+              eventHandlers={this.handleLogoDrop()}>
+              <div className="dz-message">Logo</div>
+            </DropzoneComponent>
+          )}
         </div>
 
         <div>

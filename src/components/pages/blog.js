@@ -9,6 +9,8 @@ export default class Blog extends Component {
 
     this.state = {
       blogItems: [],
+      totalCount: 0,
+      currenPage: 0,
     };
     this.getBlogItems = this.getBlogItems.bind(this);
     this.activateInfiniteScroll();
@@ -24,6 +26,9 @@ export default class Blog extends Component {
     };
   }
   getBlogItems() {
+    this.setState({
+      currenPage: this.state.currenPage + 1,
+    });
     axios
       .get("https://christinem.devcamp.space/portfolio/portfolio_blogs", {
         withCredentials: true,
@@ -31,6 +36,7 @@ export default class Blog extends Component {
       .then(response => {
         this.setState({
           blogItems: response.data.portfolio_blogs,
+          totalCount: response.data.meta.total_records,
         });
       })
       .catch(error => {

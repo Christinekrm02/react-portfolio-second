@@ -15,29 +15,38 @@ export default class Blog extends Component {
       isLoading: true,
     };
     this.getBlogItems = this.getBlogItems.bind(this);
-    this.activateInfiniteScroll();
+    this.onScroll = this.onScroll.bind(this);
+    window.addEventListener("scroll", this.onScroll, false);
   }
-  activateInfiniteScroll() {
-    window.onscroll = () => {
-      if (
-        window.innerHeight + document.documentElement.scrollTop ===
-        document.documentElement.offsetHeight
-      ) {
-        console.log("get more posts");
-      }
-    };
+  onScroll() {
+    if (
+      this.state.isLoading ||
+      this.state.blogItems.length === this.state.totalCount
+    ) {
+      return;
+    }
+    if (
+      window.innerHeight + document.documentElement.scrollTop ===
+      document.documentElement.offsetHeight
+    ) {
+      this.getBlogItems();
+    }
   }
   getBlogItems() {
     this.setState({
       currenPage: this.state.currenPage + 1,
     });
     axios
-      .get("https://christinem.devcamp.space/portfolio/portfolio_blogs", {
-        withCredentials: true,
-      })
+      .get(
+        `https://christinem.devcamp.space/portfolio/portfolio_blogs?page=${this.state.currenPage}`,
+        {
+          withCredentials: true,
+        }
+      )
       .then(response => {
+        console.log("getingBlogItems", response.data);
         this.setState({
-          blogItems: response.data.portfolio_blogs,
+          blogItems: this.state.blogItems.concat(response.data.portfolio_blogs),
           totalCount: response.data.meta.total_records,
           isLoading: false,
         });
@@ -49,6 +58,9 @@ export default class Blog extends Component {
 
   componentWillMount() {
     this.getBlogItems();
+  }
+  componentWillUnmount() {
+    window.removeEventListener("scroll", this.onScroll, false);
   }
   render() {
     //Store blog records

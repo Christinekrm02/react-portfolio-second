@@ -12,7 +12,7 @@ export default class Blog extends Component {
     this.state = {
       blogItems: [],
       totalCount: 0,
-      currenPage: 0,
+      currentPage: 0,
       isLoading: true,
       blogModalIsOpen: false,
     };
@@ -21,6 +21,15 @@ export default class Blog extends Component {
     window.addEventListener("scroll", this.onScroll, false);
     this.handleNewBlogClick = this.handleNewBlogClick.bind(this);
     this.handleModalClose = this.handleModalClose.bind(this);
+    this.handleSuccessfulNewBlogSubmission = this.handleSuccessfulNewBlogSubmission.bind(
+      this
+    );
+  }
+  handleSuccessfulNewBlogSubmission(blog) {
+    this.setState({
+      blogModalIsOpen: false,
+      blogItems: [blog].concat(this.state.blogItems),
+    });
   }
   handleModalClose() {
     this.setState({
@@ -48,17 +57,16 @@ export default class Blog extends Component {
   }
   getBlogItems() {
     this.setState({
-      currenPage: this.state.currenPage + 1,
+      currentPage: this.state.currentPage + 1,
     });
     axios
       .get(
-        `https://christinem.devcamp.space/portfolio/portfolio_blogs?page=${this.state.currenPage}`,
+        `https://christinem.devcamp.space/portfolio/portfolio_blogs?page=${this.state.currentPage}`,
         {
           withCredentials: true,
         }
       )
       .then(response => {
-        console.log("getingBlogItems", response.data);
         this.setState({
           blogItems: this.state.blogItems.concat(response.data.portfolio_blogs),
           totalCount: response.data.meta.total_records,
@@ -85,11 +93,16 @@ export default class Blog extends Component {
     return (
       <div className="blog-container">
         <BlogModal
+          handleSuccessfulNewBlogSubmission={
+            this.handleSuccessfulNewBlogSubmission
+          }
           handleModalClose={this.handleModalClose}
           modalIsOpen={this.state.blogModalIsOpen}
         />
         <div className="new-blog-link">
-          <a onClick={this.handleNewBlogClick}>Click here to open modal</a>
+          <a onClick={this.handleNewBlogClick}>
+            <FontAwesomeIcon icon="folder-plus" />
+          </a>
         </div>
         <div className="content-loader">
           <FontAwesomeIcon icon="spinner" spin />

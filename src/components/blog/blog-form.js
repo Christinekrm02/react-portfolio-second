@@ -10,15 +10,22 @@ export default class BlogForm extends Component {
     this.state = {
       title: "",
       blog_status: "",
+      content: "",
     };
     this.handleChange = this.handleChange.bind(this);
     this.handleFormSubmit = this.handleFormSubmit.bind(this);
+    this.handleRichTextEditorChange = this.handleRichTextEditorChange.bind(
+      this
+    );
   }
-
+  handleRichTextEditorChange(content) {
+    this.setState({ content });
+  }
   buildForm() {
     let formData = new FormData();
     formData.append("portfolio_blog[title]", this.state.title);
     formData.append("portfolio_blog[blog_status]", this.state.blog_status);
+    formData.append("portfolio_blog[content]", this.state.content);
 
     return formData;
   }
@@ -68,7 +75,9 @@ export default class BlogForm extends Component {
           value={this.state.blog_status}
         />
         <div className="onc-column">
-          <RichTextEditor />
+          <RichTextEditor
+            handleRichTextEditorChange={this.handlerichTextEditorChange}
+          />
         </div>
         <button>Save</button>
       </form>

@@ -76,7 +76,7 @@ export default class BlogForm extends Component {
         />
         <div className="onc-column">
           <RichTextEditor
-            handleRichTextEditorChange={this.handlerichTextEditorChange}
+            handleRichTextEditorChange={this.handleRichTextEditorChange}
           />
         </div>
         <button>Save</button>

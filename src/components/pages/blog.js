@@ -33,7 +33,7 @@ export default class Blog extends Component {
   }
   handleModalClose() {
     this.setState({
-      blogModalIsOpen: false,
+      blogModalIsOpen: true,
     });
   }
   handleNewBlogClick() {
@@ -78,7 +78,7 @@ export default class Blog extends Component {
       });
   }
 
-  componentWillMount() {
+  UNSAFE_componentWillMount() {
     this.getBlogItems();
   }
   componentWillUnmount() {

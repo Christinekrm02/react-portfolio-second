@@ -10,19 +10,23 @@ export default class BlogForm extends Component {
     this.state = {
       title: "",
       blog_status: "",
-      content: "",
+      content: ""
     };
+
     this.handleChange = this.handleChange.bind(this);
-    this.handleFormSubmit = this.handleFormSubmit.bind(this);
+    this.handleSubmit = this.handleSubmit.bind(this);
     this.handleRichTextEditorChange = this.handleRichTextEditorChange.bind(
       this
     );
   }
+
   handleRichTextEditorChange(content) {
     this.setState({ content });
   }
+
   buildForm() {
     let formData = new FormData();
+
     formData.append("portfolio_blog[title]", this.state.title);
     formData.append("portfolio_blog[blog_status]", this.state.blog_status);
     formData.append("portfolio_blog[content]", this.state.content);
@@ -30,7 +34,7 @@ export default class BlogForm extends Component {
     return formData;
   }
 
-  handleFormSubmit(event) {
+  handleSubmit(event) {
     axios
       .post(
         "https://christinem.devcamp.space/portfolio/portfolio_blogs",
@@ -38,48 +42,57 @@ export default class BlogForm extends Component {
         { withCredentials: true }
       )
       .then(response => {
-        this.props.handleSuccessfulFormSubmission(response.data.portfolio_blog);
-        //clears form
         this.setState({
           title: "",
           blog_status: "",
+          content: ""
         });
+
+        this.props.handleSuccessfulFormSubmission(
+          response.data.portfolio_blog
+        );
       })
       .catch(error => {
-        console.log("handle submit for blog error", error);
+        console.log("handleSubmit for blog error", error);
       });
 
-    event.preventDefault;
+    event.preventDefault();
   }
+
   handleChange(event) {
     this.setState({
-      [event.target.name]: event.target.value,
+      [event.target.name]: event.target.value
     });
   }
+
   render() {
     return (
-      <form onSubmit={this.handleSubmit}>
-        <input
-          type="text"
-          onChange={this.handleChange}
-          name="title"
-          placeholder="Blog Title"
-          value={this.state.title}
-        />
+      <form onSubmit={this.handleSubmit} className="blog-form-wrapper">
+        <div className="two-column">
+          <input
+            type="text"
+            onChange={this.handleChange}
+            name="title"
+            placeholder="Blog Title"
+            value={this.state.title}
+          />
 
-        <input
-          type="text"
-          onChange={this.handleChange}
-          name="blog_status"
-          placeholder="Blog status"
-          value={this.state.blog_status}
-        />
-        <div className="onc-column">
+          <input
+            type="text"
+            onChange={this.handleChange}
+            name="blog_status"
+            placeholder="Blog status"
+            value={this.state.blog_status}
+          />
+        </div>
+
+        <div className="one-column">
           <RichTextEditor
             handleRichTextEditorChange={this.handleRichTextEditorChange}
           />
         </div>
-        <button>Save</button>
+
+        <button className="btn">Save</button>
       </form>
     );
   }

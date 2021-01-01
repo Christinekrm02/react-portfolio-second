@@ -1,5 +1,6 @@
 import React, { Component } from "react";
 import axios from "axios";
+import DropzoneComponent from "react-dropzone-component";
 
 import RichTextEditor from "../forms/rich-text-editor";
 
@@ -10,7 +11,8 @@ export default class BlogForm extends Component {
     this.state = {
       title: "",
       blog_status: "",
-      content: ""
+      content: "",
+      featured_image: "",
     };
 
     this.handleChange = this.handleChange.bind(this);
@@ -18,6 +20,27 @@ export default class BlogForm extends Component {
     this.handleRichTextEditorChange = this.handleRichTextEditorChange.bind(
       this
     );
+    this.compopnentConfig = this.compopnentConfig.bind(this);
+    this.djsConfig = this.djsConfig.bind(this);
+    this.handleFeaturedImageDrop = this.handleFeaturedImageDrop.bind(this);
+  }
+  compopnentConfig() {
+    return {
+      iconFiletypes: [".jpg", ".png"],
+      showFiletypeIcon: true,
+      postUrl: "https://httpbin.org/post",
+    };
+  }
+  djsConfig() {
+    return {
+      addRemoveLinks: true,
+      maxFiles: 1,
+    };
+  }
+  handleFeaturedImageDrop() {
+    return {
+      addedfile: file => this.setState({ featured_image: file }),
+    };
   }
 
   handleRichTextEditorChange(content) {
@@ -45,12 +68,10 @@ export default class BlogForm extends Component {
         this.setState({
           title: "",
           blog_status: "",
-          content: ""
+          content: "",
         });
 
-        this.props.handleSuccessfulFormSubmission(
-          response.data.portfolio_blog
-        );
+        this.props.handleSuccessfulFormSubmission(response.data.portfolio_blog);
       })
       .catch(error => {
         console.log("handleSubmit for blog error", error);
@@ -61,7 +82,7 @@ export default class BlogForm extends Component {
 
   handleChange(event) {
     this.setState({
-      [event.target.name]: event.target.value
+      [event.target.name]: event.target.value,
     });
   }
 
@@ -90,6 +111,15 @@ export default class BlogForm extends Component {
           <RichTextEditor
             handleRichTextEditorChange={this.handleRichTextEditorChange}
           />
+        </div>
+
+        <div className="image-uploaders">
+          <DropzoneComponent
+            config={this.compopnentConfig()}
+            djsConfig={this.djsConfig()}
+            eventHandlers={this.handleFeaturedImageDrop()}>
+            <div className="dz-message">Featured Image</div>
+          </DropzoneComponent>
         </div>
 
         <button className="btn">Save</button>

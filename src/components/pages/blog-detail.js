@@ -1,6 +1,7 @@
 import React, { Component } from "react";
 import axios from "axios";
 import ReactHtmlParser from "react-html-parser";
+
 import BlogFeaturedImage from "../blog/blog-featured-image";
 import BlogForm from "../blog/blog-form";
 
@@ -49,10 +50,7 @@ export default class BlogDetail extends Component {
     const contentManager = () => {
       if (this.state.editMode) {
         return (
-          <BlogForm
-            editMode={this.state.editMode}
-            blogToEdit={this.state.blogItem}
-          />
+          <BlogForm editMode={this.state.editMode} blog={this.state.blogItem} />
         );
       } else {
         return (

@@ -4,12 +4,24 @@ import {
   faEdit,
   faSpinner,
   faFolderPlus,
+  faPhoneSquareAlt,
+  faEnvelopeSquare,
+  faMapMarkedAlt,
 } from "@fortawesome/free-solid-svg-icons";
 
 import { library } from "@fortawesome/fontawesome-svg-core";
 
 const Icons = () => {
-  return library.add(faTrash, faSignOutAlt, faEdit, faSpinner, faFolderPlus);
+  return library.add(
+    faTrash,
+    faSignOutAlt,
+    faEdit,
+    faSpinner,
+    faFolderPlus,
+    faPhoneSquareAlt,
+    faEnvelopeSquare,
+    faMapMarkedAlt
+  );
 };
 
 export default Icons;

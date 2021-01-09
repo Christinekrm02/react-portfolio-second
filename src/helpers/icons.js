@@ -7,6 +7,7 @@ import {
   faPhoneSquareAlt,
   faEnvelopeSquare,
   faMapMarkedAlt,
+  faLock,
 } from "@fortawesome/free-solid-svg-icons";
 
 import { library } from "@fortawesome/fontawesome-svg-core";
@@ -20,7 +21,8 @@ const Icons = () => {
     faFolderPlus,
     faPhoneSquareAlt,
     faEnvelopeSquare,
-    faMapMarkedAlt
+    faMapMarkedAlt,
+    faLock
   );
 };
 
